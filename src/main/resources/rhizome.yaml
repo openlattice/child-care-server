@@ -8,6 +8,7 @@ session-clustering-enabled: false
 
 hazelcast:
     server: true
+    cp-member-count: 0
     group: "childcare"
     password: "trellis"
     seed-nodes:
