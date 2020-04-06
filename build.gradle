@@ -116,6 +116,7 @@ dependencies {
     if (project.hasProperty('developmentMode') && project.developmentMode) {
         logger.quiet(project.name + " using project dependencies.")
         compile project(":rhizome")
+        compile project(":conductor-client")
         compile project(":api")
         compile(project(":shuttle")) {
             exclude module: 'apache-curator'
@@ -127,6 +128,7 @@ dependencies {
         logger.quiet(project.name + " using jar dependencies.")
         compile "com.openlattice:rhizome:${rhizome_version}"
         compile "com.openlattice:api:${api_version}"
+        compile "com.openlattice:conductor-client:${conductor_client_version}"
         compile("com.openlattice:shuttle:0.0.2-SNAPSHOT") {
             exclude module: 'apache-curator'
             exclude module: 'slf4j-log4j12'
@@ -154,14 +156,6 @@ dependencies {
         exclude module: 'hamcrest'
         exclude module: 'hamcrest-core'
     }
-}
-
-eclipse {
-    ext.downloadSources = true
-    ext.downloadJavadoc = true
-
-    ext.sourceCompatibility = JavaVersion.VERSION_1_8
-    ext.targetCompatibility = JavaVersion.VERSION_1_8
 }
 
 compileKotlin {
