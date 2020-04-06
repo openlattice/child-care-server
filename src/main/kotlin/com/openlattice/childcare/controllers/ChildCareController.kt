@@ -1,6 +1,6 @@
 package com.openlattice.childcare.controllers
 
-import com.openlattice.admin.CONTROLLER
+import com.openlattice.childcare.apis.CONTROLLER
 import com.openlattice.childcare.apis.ChildCareApi
 import com.openlattice.childcare.apis.TOKEN
 import com.openlattice.childcare.services.ChildCareService

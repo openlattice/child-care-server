@@ -9,7 +9,9 @@ import com.openlattice.web.converters.IterableCsvHttpMessageConverter
 import com.openlattice.web.converters.YamlHttpMessageConverter
 import com.openlattice.web.mediatypes.CustomMediaType
 import com.ryantenney.metrics.spring.config.annotation.EnableMetrics
+import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.ComponentScan
+import org.springframework.context.annotation.Configuration
 import org.springframework.http.converter.HttpMessageConverter
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
 import org.springframework.scheduling.annotation.EnableAsync
@@ -40,11 +42,11 @@ import javax.inject.Inject
 *
 * You can contact the owner of the copyright at support@openlattice.com
 */
-@org.springframework.context.annotation.Configuration
+@Configuration
 @ComponentScan(basePackageClasses = [ChildCareController::class, ChildCareServerExceptionHandler::class], includeFilters = [ComponentScan.Filter(value = [Controller::class, RestControllerAdvice::class], type = org.springframework.context.annotation.FilterType.ANNOTATION)])
 @EnableAsync
 @EnableMetrics(proxyTargetClass = true)
-class ChildCareServerMvcPod : WebMvcConfigurationSupport() {
+open class ChildCareServerMvcPod : WebMvcConfigurationSupport() {
 
     @Inject
     private lateinit var defaultObjectMapper: ObjectMapper
@@ -52,7 +54,7 @@ class ChildCareServerMvcPod : WebMvcConfigurationSupport() {
     @Inject
     private lateinit var childCareServerSecurityPod: ChildCareServerSecurityPod
 
-    protected override fun configureMessageConverters(converters: MutableList<HttpMessageConverter<*>>) {
+    override fun configureMessageConverters(converters: MutableList<HttpMessageConverter<*>>) {
         super.addDefaultHttpMessageConverters(converters)
         for (converter in converters) {
             if (converter is MappingJackson2HttpMessageConverter) {
@@ -66,7 +68,7 @@ class ChildCareServerMvcPod : WebMvcConfigurationSupport() {
 
     // TODO: We need to lock this down. Since all endpoints are stateless + authenticated this is more a
 // defense-in-depth measure.
-    protected override fun addCorsMappings(registry: CorsRegistry) {
+    override fun addCorsMappings(registry: CorsRegistry) {
         registry
                 .addMapping("/**")
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH")
@@ -74,7 +76,7 @@ class ChildCareServerMvcPod : WebMvcConfigurationSupport() {
         super.addCorsMappings(registry)
     }
 
-    protected override fun configureContentNegotiation(configurer: ContentNegotiationConfigurer) {
+    override fun configureContentNegotiation(configurer: ContentNegotiationConfigurer) {
         configurer.parameterName(DataApi.FILE_TYPE)
                 .favorParameter(true)
                 .mediaType("csv", CustomMediaType.TEXT_CSV)
@@ -83,9 +85,9 @@ class ChildCareServerMvcPod : WebMvcConfigurationSupport() {
                 .defaultContentType(org.springframework.http.MediaType.APPLICATION_JSON)
     }
 
-    @org.springframework.context.annotation.Bean
+    @Bean
     @Throws(Exception::class)
-    fun authenticationManagerBean(): AuthenticationManager {
+    open fun authenticationManagerBean(): AuthenticationManager {
         return childCareServerSecurityPod.authenticationManagerBean()
     }
 }

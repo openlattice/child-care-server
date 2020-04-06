@@ -25,9 +25,9 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 
 @Configuration
-class ChildCareServerServletsPod {
+open class ChildCareServerServletsPod {
     @Bean
-    fun edmServlet(): DispatcherServletConfiguration {
+    open fun childCareServlet(): DispatcherServletConfiguration {
         return DispatcherServletConfiguration(
                 "child-care", arrayOf("/child-care/*"),
                 1,
