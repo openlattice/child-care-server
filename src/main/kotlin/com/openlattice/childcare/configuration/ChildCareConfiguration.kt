@@ -6,7 +6,7 @@ import com.kryptnostic.rhizome.configuration.annotation.ReloadableConfiguration
 /**
  * Configuration class for auditing.
  */
-@ReloadableConfiguration(uri = "auditing.yaml")
+@ReloadableConfiguration(uri = "childcare.yaml")
 data class ChildCareConfiguration(
         @JsonProperty("username") val username: String,
         @JsonProperty("password") val password: String
