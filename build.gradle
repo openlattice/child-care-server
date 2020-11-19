@@ -42,7 +42,7 @@ plugins {
     id 'eclipse'
     id 'idea'
     id 'jacoco'
-    id "org.jetbrains.kotlin.jvm" version "1.2.30"
+    id "org.jetbrains.kotlin.jvm" version "1.3.72"
 }
 
 description = "Child Care Server"
@@ -116,25 +116,10 @@ dependencies {
     if (project.hasProperty('developmentMode') && project.developmentMode) {
         logger.quiet(project.name + " using project dependencies.")
         compile project(":rhizome")
-        compile project(":conductor-client")
-        compile project(":api")
-        compile(project(":shuttle")) {
-            exclude module: 'apache-curator'
-            exclude module: 'slf4j-log4j12'
-            exclude module: 'hadoop-mapreduce-client-core'
-            exclude module: 'hadoop-common'
-        }
+
     } else {
         logger.quiet(project.name + " using jar dependencies.")
         compile "com.openlattice:rhizome:${rhizome_version}"
-        compile "com.openlattice:api:${api_version}"
-        compile "com.openlattice:conductor-client:${conductor_client_version}"
-        compile("com.openlattice:shuttle:0.0.2-SNAPSHOT") {
-            exclude module: 'apache-curator'
-            exclude module: 'slf4j-log4j12'
-            exclude module: 'hadoop-mapreduce-client-core'
-            exclude module: 'hadoop-common'
-        }
 
         testCompile "com.openlattice:rhizome:${rhizome_version}:tests"
         testCompile "com.openlattice:rhizome-client:${rhizome_client_version}:tests"

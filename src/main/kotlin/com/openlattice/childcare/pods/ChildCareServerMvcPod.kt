@@ -4,10 +4,6 @@ package com.openlattice.childcare.pods
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.openlattice.childcare.controllers.ChildCareController
 import com.openlattice.childcare.util.ChildCareServerExceptionHandler
-import com.openlattice.data.DataApi
-import com.openlattice.web.converters.IterableCsvHttpMessageConverter
-import com.openlattice.web.converters.YamlHttpMessageConverter
-import com.openlattice.web.mediatypes.CustomMediaType
 import com.ryantenney.metrics.spring.config.annotation.EnableMetrics
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.ComponentScan
@@ -62,8 +58,6 @@ open class ChildCareServerMvcPod : WebMvcConfigurationSupport() {
                 jacksonConverter.setObjectMapper(defaultObjectMapper)
             }
         }
-        converters.add(IterableCsvHttpMessageConverter())
-        converters.add(YamlHttpMessageConverter())
     }
 
     // TODO: We need to lock this down. Since all endpoints are stateless + authenticated this is more a
@@ -77,11 +71,9 @@ open class ChildCareServerMvcPod : WebMvcConfigurationSupport() {
     }
 
     override fun configureContentNegotiation(configurer: ContentNegotiationConfigurer) {
-        configurer.parameterName(DataApi.FILE_TYPE)
+        configurer.parameterName("fileType")
                 .favorParameter(true)
-                .mediaType("csv", CustomMediaType.TEXT_CSV)
                 .mediaType("json", org.springframework.http.MediaType.APPLICATION_JSON)
-                .mediaType("yaml", CustomMediaType.TEXT_YAML)
                 .defaultContentType(org.springframework.http.MediaType.APPLICATION_JSON)
     }
 
