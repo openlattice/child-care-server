@@ -19,8 +19,6 @@
  */
 package com.openlattice.childcare
 
-import com.dataloom.mappers.ObjectMappers
-import com.fasterxml.jackson.databind.ObjectMapper
 import com.kryptnostic.rhizome.configuration.websockets.BaseRhizomeServer
 import com.kryptnostic.rhizome.core.RhizomeApplicationServer
 import com.kryptnostic.rhizome.hazelcast.serializers.RhizomeUtils.Pods
@@ -28,7 +26,6 @@ import com.openlattice.auth0.Auth0Pod
 import com.openlattice.childcare.pods.ChildCareServerSecurityPod
 import com.openlattice.childcare.pods.ChildCareServerServicesPod
 import com.openlattice.childcare.pods.ChildCareServerServletsPod
-import com.openlattice.data.serializers.FullQualifiedNameJacksonSerializer
 
 class ChildCareServer(vararg pods: Class<*>?) : BaseRhizomeServer(*Pods.concatenate(
         pods,
@@ -53,10 +50,6 @@ class ChildCareServer(vararg pods: Class<*>?) : BaseRhizomeServer(*Pods.concaten
         fun main(args: Array<String>) {
             val childCareServer = ChildCareServer()
             childCareServer.start(*args)
-        }
-
-        init {
-            ObjectMappers.foreach { mapper: ObjectMapper? -> FullQualifiedNameJacksonSerializer.registerWithMapper(mapper) }
         }
     }
 

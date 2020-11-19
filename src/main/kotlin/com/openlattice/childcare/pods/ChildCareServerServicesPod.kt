@@ -29,7 +29,6 @@ import com.openlattice.auth0.AwsAuth0TokenProvider
 import com.openlattice.authentication.Auth0Configuration
 import com.openlattice.childcare.configuration.ChildCareConfiguration
 import com.openlattice.childcare.services.ChildCareService
-import com.openlattice.data.serializers.FullQualifiedNameJacksonSerializer
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.Import
@@ -49,9 +48,7 @@ open class ChildCareServerServicesPod {
 
     @Bean
     open fun defaultObjectMapper(): ObjectMapper {
-        val mapper: ObjectMapper = ObjectMappers.getJsonMapper()
-        FullQualifiedNameJacksonSerializer.registerWithMapper(mapper)
-        return mapper
+        return ObjectMappers.getJsonMapper()
     }
 
     @Bean(name = ["childCareConfiguration"])
@@ -67,6 +64,6 @@ open class ChildCareServerServicesPod {
 
     @Bean
     open fun childCareService(): ChildCareService {
-        return ChildCareService(getChildCareConfiguration())
+        return ChildCareService(getChildCareConfiguration(), auth0Configuration)
     }
 }
