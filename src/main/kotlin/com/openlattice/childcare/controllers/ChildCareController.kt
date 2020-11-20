@@ -14,10 +14,6 @@ import javax.inject.Inject
 @RequestMapping(CONTROLLER)
 class ChildCareController : ChildCareApi {
 
-    companion object {
-        private val logger = LoggerFactory.getLogger(ChildCareController::class.java)!!
-    }
-
     @Inject
     private lateinit var childCareService: ChildCareService
 
