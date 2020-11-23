@@ -17,6 +17,7 @@ class ChildCareService(
 
     private val tokenSupplier: Supplier<String> = Suppliers.memoizeWithExpiration({
         try {
+            logger.info("getting id token from auth0...")
             auth0Client.getIdToken(config.username, config.password)
         } catch (ex: Exception) {
             logger.error("Failed to retrieve a token from auth0", ex)
